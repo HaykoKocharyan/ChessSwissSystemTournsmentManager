@@ -8,18 +8,18 @@ namespace SwissChessTournament.Logic
     {
         public static void AddPlayer(string name, int rating)
         {
-            using (var context = new TournamentContext()) // Default constructor
+            var player = new Player { Name = name, MainRating = rating, Score = 0 };
+            SavePlayer(player);
+        }
+        private static void SavePlayer(Player player)
+        {
+            using (var context = new TournamentContext())
             {
-                context.Players.Add(new Player
-                {
-                    Name = name,
-                    MainRating = rating,
-                    Score = 0,
-                    TotalGamesPlayed = 0
-                });
+                context.Players.Add(player);
                 context.SaveChanges();
             }
         }
+
 
         public static List<Player> GetAllPlayers()
         {

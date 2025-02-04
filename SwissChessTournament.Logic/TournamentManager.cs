@@ -62,5 +62,34 @@ namespace SwissChessTournament.Logic
                 return context.Players.ToList();
             }
         }
+
+        public static void SaveMatchResult(string connectionString, int matchId, int player1Score, int player2Score)
+        {
+            using (var context = new TournamentContext(connectionString))
+            {
+                var match = context.Matches.Find(matchId);
+                if (match != null)
+                {
+                    match.Player1Score = player1Score;
+                    match.Player2Score = player2Score;
+
+                    // Determine the winner
+                    if (player1Score > player2Score)
+                    {
+                        match.WinnerId = match.Player1Id;
+                    }
+                    else if (player2Score > player1Score)
+                    {
+                        match.WinnerId = match.Player2Id;
+                    }
+                    else
+                    {
+                        match.WinnerId = null; // Draw
+                    }
+
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }

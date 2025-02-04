@@ -25,16 +25,10 @@ namespace SwissChessTournament.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql(_connectionString);
-            }
+            optionsBuilder.UseNpgsql(_connectionString);
         }
-    
 
-
-
-// Configure the database schema
+        // Configure the database schema
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Define the Player table
